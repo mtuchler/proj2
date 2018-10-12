@@ -9,5 +9,10 @@
 //
 //////////////////////////////////
 
-#include <threads.h>
+#ifndef PRODCOMM_H
+#define PRODCOMM_H
+
+#include "threads.h"
+
+#endif
 
