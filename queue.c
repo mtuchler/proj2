@@ -6,11 +6,10 @@
 #include <semaphore.h>
 #include <unistd.h>
 
-int mutex = 1;
-int wait = 0;
 sem_t mutex;
 sem_t wait;
-
+sem_init(mutex,1);
+sem_init(wait,0)
 //queue structure
 typedef struct{
         int size = 10;
