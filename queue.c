@@ -1,6 +1,7 @@
 // queue.c
 //
 //
+
 #include <stdio.h>
 #include <pthread.h>
 #include <semaphore.h>
@@ -28,7 +29,8 @@ int dequeueBlockCount;
 //allocates the queue structure and initializes it 
 //with an array of character pointers
 Queue *CreateStringQueue(int size){
-	Queue* q = (char*)malloc(sizeof(size)*10); 
+	Queue* q = new Queue(); 
+	q = (char*)malloc(sizeof(size)*10); 
 	q->front = 0;
         q->rear = -1;
         return q;
@@ -44,7 +46,7 @@ void EnqueueString(Queue *q, char *string){
 	}
 	enqueueCount++;
 	//places pointer to the string at end of the queue
-	string = queue->rear;;
+	string = q->rear;;
 
 	sem_wait(&mutex);
 	sem_post(&wait);
@@ -55,12 +57,12 @@ char * DequeueString(Queue *q){
 	sem_post(&mutex);
 	if(isEmpty()){
 		dequeueBlockCount++;
-		sem_wait(&wait);
-		
+		sem_wait(&wait);	
 	}
 	dequeueCount++;
 	//remove pointer
-	
+	q->front = NULL;
+
 	sem_wait(&mutex);
 	sem_post(&wait);
 	return q->front;
