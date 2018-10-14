@@ -14,19 +14,22 @@ sem_init(wait,0);
 
 //queue structure
 typedef struct{
-        int size = 10;
+        int size;
         int front;
         int rear;
-	int enqueueCount;
-	int dequeueCount;
-	int enqueueBlockCount;
-	int dequeueBlockCount;
 }Queue;
+
+//stats to keep track of
+int enqueueCount;
+int dequeueCount;
+int enqueueBlockCount;
+int dequeueBlockCount;
 
 //allocates the queue structure and initializes it 
 //with an array of character pointers
 Queue *CreateStringQueue(int size){
 	Queue* q = (char*)malloc(sizeof(size));
+	q = (char*)malloc(sizeof(size)*10); 
 	q->front = 0;
         q->rear = -1;
         return q;
@@ -51,7 +54,7 @@ void EnqueueString(Queue *q, char *string){
 //attempts to remove a string from the queue
 char * DequeueString(Queue *q){
 	sem_post(&mutex);
-	if(isEmpty()){
+	if(strlen(q) == 0){
 		dequeueBlockCount++;
 		sem_wait(&wait);
 		
