@@ -7,12 +7,6 @@
 #include <unistd.h>
 #include "threads.h"
 
-//semaphores and initialized semaphores
-sem_t mutex;
-sem_t wait;
-sem_init(&mutex,0,1);
-sem_init(&wait,0,0);
-
 //stats to keep track of
 int enqueueCount;
 int dequeueCount;
@@ -22,16 +16,22 @@ int dequeueBlockCount;
 //allocates the queue structure and initializes it 
 //with an array of character pointers
 Queue *CreateStringQueue(int size){
+	//initialize semaphores
+	sem_t mutex;
+	sem_t wait;
+	sem_init(&mutex,0,1);
+	sem_init(&wait,0,0);
+
 	//malloc queue structure and initialize it
 	//with an array of character pointers	
-	struct Queue *q;
+	Queue *q;
        	q = malloc(sizeof(Queue));
 	q->strings = malloc(sizeof(char*)*size);
 	for (int i = 0; i < size; i++) {
 		q->strings[i] = malloc(BUFF_SIZE);
 	}
         return q;
-}
+//}
 
 //attempts to add a string to the queue
 void EnqueueString(Queue *q, char *string){
@@ -75,4 +75,5 @@ char * DequeueString(Queue *q){
 void PrintQueueStats(Queue *q){
 	printf("%d\n%d\n%d\n%d\n",enqueueCount,dequeueCount,enqueueBlockCount
 			,dequeueBlockCount);	
+}
 }
