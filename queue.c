@@ -33,8 +33,10 @@ int dequeueBlockCount;
 //allocates the queue structure and initializes it 
 //with an array of character pointers
 Queue *CreateStringQueue(int size){
-	Queue* q = new Queue(); 
-	q = (char*)malloc(sizeof(size)*10); 
+	Queue* q = new Queue();
+	//malloc queue structure and initialize it
+	//with an array of character pointers	
+	q = (char*)malloc(sizeof(size));
 	q->front = 0;
         q->rear = -1;
         return q;
@@ -44,7 +46,7 @@ Queue *CreateStringQueue(int size){
 void EnqueueString(Queue *q, char *string){
 	sem_post(&mutex);	
 	//if queue is full block til space is available
-	while(isFull()){
+	while(q->rear != NULL){
 		enqueueBlockCount++;
 		sem_wait(&wait);
 	}
@@ -59,7 +61,7 @@ void EnqueueString(Queue *q, char *string){
 //attempts to remove a string from the queue
 char * DequeueString(Queue *q){
 	sem_post(&mutex);
-	while(isEmpty()){
+	while(q->front == NULL && q->rear == NULL){
 		dequeueBlockCount++;
 		sem_wait(&wait);	
 	}
