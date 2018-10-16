@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <unistd.h>
-#define MY_BUFFER_SIZE 256
+#define MY_BUFFER_SIZE 1024
 
 //character buffer
 char mybuffer[MY_BUFFER_SIZE];
