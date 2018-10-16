@@ -18,10 +18,10 @@
 #include <unistd.h>
 
 // global functions, used by the threads
-void reader();
-void munch1();
-void munch2();
-void writer();
+void* reader();
+void* munch1();
+void* munch2();
+void* writer();
 
 // safe buffer size
 const int BUFF_SIZE = 1024;

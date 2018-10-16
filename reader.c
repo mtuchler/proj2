@@ -13,9 +13,9 @@
 
 //char mybuffer[BUFF_SIZE];
 
-void reader() {
+void* reader() {
 	
 	printf("reader\n");
-	return;
+	return NULL;
 
 }

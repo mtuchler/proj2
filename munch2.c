@@ -11,8 +11,8 @@
 
 #include "threads.h"
 
-void munch2() {
+void* munch2() {
 
-	printf("munch2");
-	return;
+	printf("munch2\n");
+	return NULL;
 }
