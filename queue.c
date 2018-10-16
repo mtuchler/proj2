@@ -19,7 +19,7 @@ sem_init(wait,0);
 
 //queue structure
 typedef struct{
-        int size;
+        int size = 10;
         int front;
         int rear;
 }Queue;
@@ -36,7 +36,7 @@ Queue *CreateStringQueue(int size){
 	//malloc queue structure and initialize it
 	//with an array of character pointers	
 	struct Queue *q = malloc(sizeof *q)
-	q = (char*)malloc(sizeof(size)*10);
+	q = (char*)malloc(sizeof(size));
 	q->front = 0;
         q->rear = -1;
         return q;
