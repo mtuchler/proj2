@@ -76,6 +76,8 @@ char * DequeueString(Queue *q){
 
 //prints statistics for the queue
 void PrintQueueStats(Queue *q){
-	printf("%d",enqueueCount);
-		
+	printf("%d\n",enqueueCount);
+	printf("%d\n", dequeueCount);
+	printf("%d\n", enqueueBlockCount);
+	printf("%d\n", dequeueBlockCount);	
 }
