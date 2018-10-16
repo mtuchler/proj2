@@ -3,14 +3,12 @@
 //
 
 #include <stdio.h>
-#include <pthread.h>
 #include <semaphore.h>
 #include <unistd.h>
-#include <threads.h>
-#define MY_BUFFER_SIZE 1024
+#include "threads.h"
 
 //character buffer
-char mybuffer[MY_BUFFER_SIZE];
+char mybuffer[BUFF_SIZE];
 
 //semaphores and initialized semaphores
 sem_t mutex;
@@ -46,7 +44,7 @@ void EnqueueString(Queue *q, char *string){
 	}
 	enqueueCount++;
 	//places pointer to the string at end of the queue
-	mybuffer[MY_BUFFER_SIZE] = q->rear;
+	mybuffer[BUFF_SIZE] = q->rear;
 
 	sem_wait(&mutex);
 	sem_post(&wait);
@@ -70,8 +68,6 @@ char * DequeueString(Queue *q){
 
 //prints statistics for the queue
 void PrintQueueStats(Queue *q){
-	printf("%d\n",enqueueCount);
-	printf("%d\n", dequeueCount);
-	printf("%d\n", enqueueBlockCount);
-	printf("%d\n", dequeueBlockCount);	
+	printf("%d\n%d\n%d\n%d\n",enqueueCount,dequeueCount,enqueueBlockCount
+			,dequeueBlockCount);	
 }
