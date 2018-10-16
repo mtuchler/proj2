@@ -11,3 +11,8 @@
 
 #include "threads.h"
 
+void munch1() {
+
+	printf("munch1\n");
+	return;
+}

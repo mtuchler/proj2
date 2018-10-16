@@ -6,7 +6,7 @@ SCAN_BUILD_DIR = scan-build-out
 all: main.o reader.o munch1.o munch2.o writer.o queue.o
 	$(CC) -o $(EXE) main.o reader.o munch1.o munch2.o writer.o queue.o
 
-main.o: main.c main.h
+main.o: main.c threads.h
 	$(CC) $(WARNING_FLAGS) -c main.c
 
 reader.o: reader.c threads.h

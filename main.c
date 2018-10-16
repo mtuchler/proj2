@@ -12,16 +12,11 @@
 #include "threads.h"
 #include <pthread.h>
 
-// queue maximum sizes
-const static int queue_size = 10;
-// array of Queue pointers
-Queue *Q[3];
-
 int main() {
 	// initialize the three queues
-	Q[0] = CreateStringQueue(queue_size);
-	Q[1] = CreateStringQueue(queue_size);
-	Q[2] = CreateStringQueue(queue_size);
+//	Q[0] = CreateStringQueue(queue_size);
+//	Q[1] = CreateStringQueue(queue_size);
+//	Q[2] = CreateStringQueue(queue_size);
 
 	printf("before threads\n");
 
@@ -36,7 +31,7 @@ int main() {
 	printf("4 threads created\n");
 
 	// join the threads
-	for (int i = 0, i < 4, i++) {
+	for (int i = 0; i < 4; i++) {
 		pthread_join(thread_id[i], NULL);
 	}
 

@@ -11,3 +11,8 @@
 
 #include "threads.h"
 
+void writer() {
+
+	printf("writer\n");
+	return;
+}
