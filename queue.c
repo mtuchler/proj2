@@ -7,14 +7,11 @@
 #include <unistd.h>
 #include "threads.h"
 
-//character buffer
-char mybuffer[BUFF_SIZE];
-
 //semaphores and initialized semaphores
 sem_t mutex;
 sem_t wait;
-sem_init(mutex,1);
-sem_init(wait,0);
+sem_init(&mutex,0,1);
+sem_init(&wait,0,0);
 
 //stats to keep track of
 int enqueueCount;
@@ -27,10 +24,12 @@ int dequeueBlockCount;
 Queue *CreateStringQueue(int size){
 	//malloc queue structure and initialize it
 	//with an array of character pointers	
-	struct Queue *q = malloc(sizeof *q)
-	q = (char*)malloc(sizeof(size));
-	q->front = 0;
-        q->rear = -1;
+	struct Queue *q;
+       	q = malloc(sizeof(Queue));
+	q->strings = malloc(sizeof(char*)*size);
+	for (int i = 0; i < size; i++) {
+		q->strings[i] = malloc(BUFF_SIZE);
+	}
         return q;
 }
 
@@ -38,13 +37,13 @@ Queue *CreateStringQueue(int size){
 void EnqueueString(Queue *q, char *string){
 	sem_post(&mutex);	
 	//if queue is full block til space is available
-	while(q->rear != NULL){
+	while(q->rear == q->size - 1){
 		enqueueBlockCount++;
 		sem_wait(&wait);
 	}
 	enqueueCount++;
 	//places pointer to the string at end of the queue
-	mybuffer[BUFF_SIZE] = q->rear;
+	q->rear = q->rear+1;
 
 	sem_wait(&mutex);
 	sem_post(&wait);
@@ -53,17 +52,23 @@ void EnqueueString(Queue *q, char *string){
 //attempts to remove a string from the queue
 char * DequeueString(Queue *q){
 	sem_post(&mutex);
-	while(q->front == NULL && q->rear == NULL){
+	while(q->rear == 0){
 		dequeueBlockCount++;
 		sem_wait(&wait);	
 	}
 	dequeueCount++;
+	
+	char* q_front = q->strings[0];
+	for(int i = 0; i < q->rear; i++){
+		q->strings[i] = q->strings[i+1];
+	}
 	//remove pointer
-	q->front = NULL;
+	q->rear--;
 
 	sem_wait(&mutex);
 	sem_post(&wait);
-	return q->front;
+
+	return q_front;
 }
 
 //prints statistics for the queue
