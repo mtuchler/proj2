@@ -6,6 +6,10 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <unistd.h>
+#define MY_BUFFER_SIZE 256
+
+//character buffer
+char mybuffer[MY_BUFFER_SIZE];
 
 //semaphores and initialized semaphores
 sem_t mutex;
@@ -40,13 +44,13 @@ Queue *CreateStringQueue(int size){
 void EnqueueString(Queue *q, char *string){
 	sem_post(&mutex);	
 	//if queue is full block til space is available
-	if(isFull()){
+	while(isFull()){
 		enqueueBlockCount++;
 		sem_wait(&wait);
 	}
 	enqueueCount++;
 	//places pointer to the string at end of the queue
-	string = q->rear;;
+	mybuffer[MY_BUFFER_SIZE] = q->rear;
 
 	sem_wait(&mutex);
 	sem_post(&wait);
@@ -55,7 +59,7 @@ void EnqueueString(Queue *q, char *string){
 //attempts to remove a string from the queue
 char * DequeueString(Queue *q){
 	sem_post(&mutex);
-	if(isEmpty()){
+	while(isEmpty()){
 		dequeueBlockCount++;
 		sem_wait(&wait);	
 	}
