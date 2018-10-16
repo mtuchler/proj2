@@ -1,3 +1,6 @@
+#ifndef THREADS_H
+#define THREADS_H
+
 //////////////////////////////////
 //
 // File:        threads.h
@@ -10,9 +13,6 @@
 //
 /////////////////////////////////
 
-#ifndef THREADS_H
-#define THREADS_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -24,7 +24,7 @@ void* munch2();
 void* writer();
 
 // safe buffer size
-const int BUFF_SIZE = 1024;
+static const int BUFF_SIZE = 1024;
 
 // declaration of a Queue struct
 typedef struct{
@@ -33,7 +33,7 @@ typedef struct{
         char** strings;
 }Queue;
 // number of items in the queue
-const int queue_size = 10;
+static const int queue_size = 10;
 // array of queue pointers
 Queue *Q[3];
 
