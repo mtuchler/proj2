@@ -10,3 +10,12 @@
 //////////////////////////////////
 
 #include "threads.h"
+#include <stdio.h>
+#define MY_BUFFER_SIZE 256
+
+char mybuffer[MY_BUFFER_SIZE];
+
+void reader(){
+	
+
+}
