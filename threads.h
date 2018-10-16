@@ -15,4 +15,10 @@
 
 #include <stdio.h>
 
+typedef struct{
+        int size;
+        int front;
+        int rear;
+}Queue;
+
 #endif

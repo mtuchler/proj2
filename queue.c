@@ -6,6 +6,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <unistd.h>
+#include <threads.h>
 #define MY_BUFFER_SIZE 1024
 
 //character buffer
@@ -16,13 +17,6 @@ sem_t mutex;
 sem_t wait;
 sem_init(mutex,1);
 sem_init(wait,0);
-
-//queue structure
-typedef struct{
-        int size = 10;
-        int front;
-        int rear;
-}Queue;
 
 //stats to keep track of
 int enqueueCount;
