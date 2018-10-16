@@ -33,10 +33,10 @@ int dequeueBlockCount;
 //allocates the queue structure and initializes it 
 //with an array of character pointers
 Queue *CreateStringQueue(int size){
-	Queue* q = new Queue();
 	//malloc queue structure and initialize it
 	//with an array of character pointers	
-	q = (char*)malloc(sizeof(size));
+	struct Queue *q = malloc(sizeof *q)
+	q = (char*)malloc(sizeof(size)*10);
 	q->front = 0;
         q->rear = -1;
         return q;
