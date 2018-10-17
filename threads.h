@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <semaphore.h>
 // global functions, used by the threads
 void* reader();
 void* munch1();
@@ -31,6 +31,8 @@ typedef struct{
         int size;
         int rear;
         char** strings;
+	sem_t mutex;
+        sem_t wait;
 }Queue;
 // number of items in the queue
 static const int queue_size = 10;
