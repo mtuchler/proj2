@@ -25,6 +25,12 @@ void* munch1();
 void* munch2();
 void* writer();
 
+// queue functions
+Queue * CreateStringQueue(int size);
+void EnqueueString(Queue *q, char *string);
+char * DequeueString(Queue *q);
+void PrintQueueStats(Queue *q);
+
 // safe buffer size
 static const int BUFF_SIZE = 1024;
 
