@@ -10,9 +10,22 @@
 //////////////////////////////////
 
 #include "threads.h"
+#include <ctype.h>
 
 void* munch2() {
-
-	printf("munch2\n");
+	char buff[BUFF_SIZE];
+	while(1){
+		strcpy(buff, DequeueString(Q[1]));
+		if(buff == NULL){
+			buff = EnqueueString(Q[2], NULL)
+			exit(1);
+		}
+		else{
+			for(int i = 0; i < BUFF_SIZE; i++){
+				buff[i] = toupper(buff[i]);
+			}
+		}
+		EnqueueString(Q[2].buff);
+	}
 	return NULL;
 }
