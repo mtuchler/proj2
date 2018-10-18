@@ -9,14 +9,11 @@
 //
 //////////////////////////////////
 
-#include <stdio.h>
-#include <semaphore.h>
-#include <unistd.h>
 #include "threads.h"
 
 //allocates the queue structure and initializes it 
 //with an array of character pointers
-Queue *CreateStringQueue(int size){
+Queue *CreateStringQueue(int size) {
 	//malloc queue structure and initialize it
 	//with an array of character pointers	
 	Queue *q;
@@ -40,10 +37,10 @@ Queue *CreateStringQueue(int size){
 		q->strings[i] = malloc(BUFF_SIZE);
 	}
         return q;
-//}
+}
 
 //attempts to add a string to the queue
-void EnqueueString(Queue *q, char *string){
+void EnqueueString(Queue *q, char *string) {
 	sem_wait(&q->empty);
 	sem_wait(&q->mutex);
 	// -- critical section --
@@ -65,7 +62,7 @@ void EnqueueString(Queue *q, char *string){
 }
 
 //attempts to remove a string from the queue
-char * DequeueString(Queue *q){
+char * DequeueString(Queue *q) {
 	sem_wait(&q->full);
 	sem_wait(&q->mutex);
 	// -- critical section --
@@ -91,5 +88,4 @@ void PrintQueueStats(Queue *q){
 		printf("%d\t%d\t%d\t%d\n",q->stats[0],q->stats[1],
 				q->stats[2],q->stats[3]);
 	}	
-}
 }

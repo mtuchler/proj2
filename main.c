@@ -14,9 +14,9 @@
 
 int main() {
 	// initialize the three queues
-//	Q[0] = CreateStringQueue(queue_size);
-//	Q[1] = CreateStringQueue(queue_size);
-//	Q[2] = CreateStringQueue(queue_size);
+	Q[0] = CreateStringQueue(queue_size);
+	Q[1] = CreateStringQueue(queue_size);
+	Q[2] = CreateStringQueue(queue_size);
 
 	printf("before threads\n");
 

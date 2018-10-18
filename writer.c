@@ -22,5 +22,6 @@ void* writer() {
 			//write to standard output
 
 		}
+	}
 	return NULL;
 }

@@ -9,7 +9,7 @@
 //              Abhishek Kosuri
 // Included in: reader.c, munch1.c, munch2.c,
 // 		writer.c, queue.c, main.h
-// Last Edit:   10/12/2018
+// Last Edit:   10/19/2018
 //
 /////////////////////////////////
 
@@ -43,10 +43,10 @@ typedef struct{
 }Queue;
 
 // queue functions
-extern Queue * CreateStringQueue(int size);
-extern void EnqueueString(Queue *q, char *string);
-extern char * DequeueString(Queue *q);
-extern void PrintQueueStats(Queue *q);
+Queue * CreateStringQueue(int size);
+void EnqueueString(Queue *q, char *string);
+char * DequeueString(Queue *q);
+void PrintQueueStats(Queue *q);
 
 // safe buffer size
 static const int BUFF_SIZE = 1024;

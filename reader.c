@@ -5,7 +5,7 @@
 // Authors:	Michael Tuchler
 // 		Abhishek Kosuri
 // Header:	threads.h
-// Last Edit:	10/12/2018
+// Last Edit:	10/19/2018
 //
 //////////////////////////////////
 
@@ -31,6 +31,7 @@ void* reader() {
 		// reading from file, by line
 		// reading happens one char at a time
 		read_result = ReadLine(file, buff);
+		printf("----%s",buff);
 		// successful read
 		if (read_result == 0) {
 			EnqueueString(Q[0], buff);
