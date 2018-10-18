@@ -25,7 +25,7 @@ void* munch1();
 void* munch2();
 void* writer();
 // buff reading test function
-void BuffRead(char * buff);
+void BuffRead(char *buff, char *brackets);
 
 // declaration of a Queue struct
 // size: max number of strings in queue

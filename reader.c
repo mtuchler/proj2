@@ -33,8 +33,7 @@ void* reader() {
 		// reading from file, by line
 		// reading happens one char at a time
 		read_result = ReadLine(file, buff);
-		printf("--");
-		BuffRead(buff);
+		BuffRead(buff, "--");
 		// successful read
 		if (read_result == 0) {
 			EnqueueString(Q[0], buff);
@@ -98,13 +97,14 @@ int ReadLine(FILE *file, char *buff) {
 
 // testing method for reading the buffer until
 // the next newline character
-void BuffRead(char * buff) {
+void BuffRead(char * buff, char * brackets) {
 	int index = 0;
+	printf("%s", brackets);
 	while (buff[index] != '\n') {
 		printf("%c", buff[index]);
 		index++;
 	}
-	printf("\n");
+	printf("%s\n", brackets);
 
 	return;
 }

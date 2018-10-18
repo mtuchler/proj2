@@ -18,7 +18,6 @@ void* writer() {
 
 	while(1){
 		nullcheck = DequeueString(Q[2]);
-		printf("Wr DQ\n");
 		// EOF handling
 		if (nullcheck == NULL) {
 			printf("Wr EOF\n");
@@ -26,11 +25,12 @@ void* writer() {
 			return NULL;
 		}
 		else {
+			printf("Wr DQ\n");
 			strcpy(buff, nullcheck);
 		}
 	
 		//write to standard output
-		BuffRead(buff);
+		BuffRead(buff, "~~");
 	}
 	return NULL;
 }
