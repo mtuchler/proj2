@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <semaphore.h>
+#include <string.h>
+
 // global functions, used by the threads
 void* reader();
 void* munch1();
