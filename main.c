@@ -29,6 +29,7 @@ int main() {
 	pthread_create(&thread_id[3], NULL, writer, NULL);
 
 	printf("4 threads created\n");
+	// there needs to be a semaphore here
 
 	// join the threads
 	for (int i = 0; i < 4; i++) {
