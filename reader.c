@@ -11,20 +11,12 @@
 
 #include "threads.h"
 
-static int ReadLine(FILE *file, char *buff);
+static int ReadLine(char *buff);
 
 void* reader() {
 	// declarations
 	char buff[BUFF_SIZE];
 	int read_result;
-
-	// file handling
-	FILE *file;
-	file = fopen("test1.txt", "r");
-	if (file == NULL) {
-		printf("Error opening file\n");
-		exit(1);
-	}
 
 	int noEOF = 1;
 
@@ -32,20 +24,21 @@ void* reader() {
 	while(noEOF) {
 		// reading from file, by line
 		// reading happens one char at a time
-		read_result = ReadLine(file, buff);
-		BuffRead(buff, "--");
+		read_result = ReadLine(buff);
+//		BuffRead(buff);
 		// successful read
 		if (read_result == 0) {
+//			fprintf(stderr, "%s", buff);
 			EnqueueString(Q[0], buff);
-			printf("Re EQ\n");
+//			printf("Re EQ\n");
 		}
 		// input line is too long
 		else if (read_result == 1) {
 			// flush line
 			char c;
 			while (c != '\n') {
-				c = fgetc(file);
-				if(feof(file)) {
+				c = fgetc(stdin);
+				if(feof(stdin)) {
 					c = '\n';
 				}	
 			}
@@ -53,16 +46,12 @@ void* reader() {
 		// EOF reached
 		else { // read_result == 2
 			//EnqueueString(Q[0], buff);
-			// NULL tells Munch1 that EOF is reached
-			printf("pre EOF\n");
-			EnqueueString(Q[0], NULL);
-			printf("Re EOF\n");
+			// TERM_TOKEN tells Munch1 that EOF is reached
+			EnqueueString(Q[0], TERM_TOKEN);
+//			printf("Re EOF\n");
 			noEOF = 0;
 		}
 	}
-
-	// After EOF is reached
-	fclose(file);
 
 	return NULL;
 
@@ -74,17 +63,18 @@ void* reader() {
 // 	0 = success
 // 	1 = line too long
 // 	2 = EOF reached
-int ReadLine(FILE *file, char *buff) {
+int ReadLine(char *buff) {
 	// read into the buffer
 	for ( int i = 0; i < BUFF_SIZE; i++) {
 		// get the next char
-		buff[i] = fgetc(file);
+		buff[i] = fgetc(stdin);
 		// check for newline
 		if (buff[i] == '\n') {
+			buff[i+1] = '\0';
 			return 0;
 		}
 		//check for EOF
-		if (feof(file)) {
+		if (feof(stdin)) {
 			return 2;
 		}	
 	}
@@ -97,14 +87,12 @@ int ReadLine(FILE *file, char *buff) {
 
 // testing method for reading the buffer until
 // the next newline character
-void BuffRead(char * buff, char * brackets) {
+void BuffRead(char * buff) {
 	int index = 0;
-	printf("%s", brackets);
-	while (buff[index] != '\n') {
-		printf("%c", buff[index]);
+	while (buff[index] != '\n' && index < BUFF_SIZE) {
+		fprintf(stderr, "%c", buff[index]);
 		index++;
 	}
-	printf("%s\n", brackets);
-
+	fprintf(stderr, "\n");
 	return;
 }

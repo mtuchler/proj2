@@ -25,7 +25,7 @@ void* munch1();
 void* munch2();
 void* writer();
 // buff reading test function
-void BuffRead(char *buff, char *brackets);
+void BuffRead(char *buff);
 
 // declaration of a Queue struct
 // size: max number of strings in queue
@@ -60,5 +60,8 @@ Queue *Q[3];
 
 // semaphore that blocks main after it creates threads
 sem_t main_block;
+
+// string that is our EOF termination token
+static char * TERM_TOKEN = "\0";
 
 #endif
