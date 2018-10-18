@@ -10,11 +10,12 @@
 //////////////////////////////////
 
 #include "threads.h"
-
-//char mybuffer[BUFF_SIZE];
+#include <stdio.h>
 
 void* reader() {
-	
+	char mybuffer[BUFF_SIZE];
+	FILE *fptr;
+	fscanf(stdin, "%s", );
 	printf("reader\n");
 	return NULL;
 

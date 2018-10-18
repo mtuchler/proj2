@@ -32,7 +32,8 @@ typedef struct{
         int rear;
         char** strings;
 	sem_t mutex;
-        sem_t wait;
+        sem_t empty;
+	sem_t full;
 }Queue;
 // number of items in the queue
 static const int queue_size = 10;
