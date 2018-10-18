@@ -24,9 +24,9 @@ Queue *CreateStringQueue(int size){
 	q->strings = malloc(sizeof(char*)*size);
 
 	//initialize semaphores
-	sem_init(&(q->mutex),0,1);
-        sem_init(&(q->full),0,0);
-	sem_init(&(q->empty),0, q_size)
+	sem_init(&q->mutex,0,1);
+        sem_init(&q->full,0,0);
+	sem_init(&q->empty,0, queue_size);
 	for (int i = 0; i < size; i++) {
 		q->strings[i] = malloc(BUFF_SIZE);
 	}
@@ -37,15 +37,20 @@ Queue *CreateStringQueue(int size){
 void EnqueueString(Queue *q, char *string){
 	sem_wait(&q->empty);
 	sem_wait(&q->mutex);
-	//if queue is full block til space is available
-	while(q->rear == q->size - 1){
-		enqueueBlockCount++;
-		sem_wait(&q->wait);
-	}
-	enqueueCount++;
-	//places pointer to the string at end of the queue
-	q->rear = q->rear+1;
+	// -- critical section --
+	
+	// if it was blocked
+	
 
+	// add string to the end of the queue
+	q->strings[rear] = string;
+	q->rear++;
+	// no increment for EOF token
+	if (string != NULL) {
+		enqueueCount++;
+	}
+
+	// -- critical section ends --
 	sem_post(&q->mutex);
 	sem_post(&q->full);
 }
@@ -53,20 +58,18 @@ void EnqueueString(Queue *q, char *string){
 //attempts to remove a string from the queue
 char * DequeueString(Queue *q){
 	sem_wait(&q->full);
-	sem_wait(&q->mutux);
-	while(q->rear == 0){
-		dequeueBlockCount++;
-		sem_wait(&q->wait);	
-	}
-	dequeueCount++;
+	sem_wait(&q->mutex);
+	// -- critical section --
 	
 	char* q_front = q->strings[0];
+	// shift all the strings forward
 	for(int i = 0; i < q->rear; i++){
 		q->strings[i] = q->strings[i+1];
 	}
-	//remove pointer
 	q->rear--;
+	dequeueCount++;
 
+	// -- critical section ends --
 	sem_post(&q->mutex);
 	sem_post(&q->empty);
 
@@ -75,7 +78,7 @@ char * DequeueString(Queue *q){
 
 //prints statistics for the queue
 void PrintQueueStats(Queue *q){
-	if(q->rear == 0 && q->front == 0){
+	if(q->rear == 0) {
 		printf("%d\n%d\n%d\n%d\n",enqueueCount,dequeueCount,
 				enqueueBlockCount,dequeueBlockCount);
 	}	
