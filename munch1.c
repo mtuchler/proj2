@@ -17,17 +17,21 @@
 void* munch1() {
 
 	char buff[BUFF_SIZE];
+	char * nullcheck;
 	
 	// main while loop
 	while(1){
 		// copy a string into the buffer
-		strcpy(buff, DequeueString(Q[0]));
-
-		// EOF handling
-		// reader passes NULL if EOF is reached
-		if (buff == NULL) {
+		nullcheck = DequeueString(Q[0]);
+		printf("M1 DQ\n");
+		// EOF handling, because strcpy doesn't work with NULL input
+		if (nullcheck == NULL) {
 			EnqueueString(Q[1], NULL);
-			exit(1);	
+			printf("M1 EOF\n");
+			return NULL;
+		}
+		else {
+			strcpy(buff, nullcheck);
 		}
 	
 		//scan each line
@@ -39,6 +43,8 @@ void* munch1() {
 		}
 
 		EnqueueString(Q[1],buff);
+		printf("M1 EQ\n");
 	}
+
 	return NULL;
 }

@@ -12,16 +12,25 @@
 #include "threads.h"
 
 void* writer() {
-	char buff[BUFF_SIZE];
-	while(1){
-		strcpy(buff, DequeueString(Q[2]));
-		if(buff == NULL){
-			exit(1);
-		}
-		else{
-			//write to standard output
 
+	char buff[BUFF_SIZE];
+	char *nullcheck;
+
+	while(1){
+		nullcheck = DequeueString(Q[2]);
+		printf("Wr DQ\n");
+		// EOF handling
+		if (nullcheck == NULL) {
+			printf("Wr EOF\n");
+			sem_post(&main_block);
+			return NULL;
 		}
+		else {
+			strcpy(buff, nullcheck);
+		}
+	
+		//write to standard output
+		BuffRead(buff);
 	}
 	return NULL;
 }

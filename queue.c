@@ -46,14 +46,16 @@ void EnqueueString(Queue *q, char *string) {
 	// -- critical section --
 	
 	// if it was blocked
-	
 
 	// add string to the end of the queue
 	q->rear++;
-	strcpy(q->strings[q->rear], string);
-	// no increment for EOF token
 	if (string != NULL) {
+		strcpy(q->strings[q->rear], string);
+		// no increment for EOF token
 		q->stats[0]++;
+	}
+	else {
+		q->strings[q->rear] = NULL;
 	}
 
 	// -- critical section ends --
@@ -66,7 +68,7 @@ char * DequeueString(Queue *q) {
 	sem_wait(&q->full);
 	sem_wait(&q->mutex);
 	// -- critical section --
-	
+
 	char* q_front = q->strings[0];
 	// shift all the strings forward
 	for(int i = 0; i < q->rear; i++){

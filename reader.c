@@ -26,15 +26,19 @@ void* reader() {
 		exit(1);
 	}
 
+	int noEOF = 1;
+
 	// while loop
-	while(1) {
+	while(noEOF) {
 		// reading from file, by line
 		// reading happens one char at a time
 		read_result = ReadLine(file, buff);
-		printf("----%s",buff);
+		printf("--");
+		BuffRead(buff);
 		// successful read
 		if (read_result == 0) {
 			EnqueueString(Q[0], buff);
+			printf("Re EQ\n");
 		}
 		// input line is too long
 		else if (read_result == 1) {
@@ -49,16 +53,17 @@ void* reader() {
 		}
 		// EOF reached
 		else { // read_result == 2
-			EnqueueString(Q[0], buff);
+			//EnqueueString(Q[0], buff);
 			// NULL tells Munch1 that EOF is reached
+			printf("pre EOF\n");
 			EnqueueString(Q[0], NULL);
-			break;
+			printf("Re EOF\n");
+			noEOF = 0;
 		}
 	}
 
 	// After EOF is reached
 	fclose(file);
-	exit(1);
 
 	return NULL;
 
@@ -81,7 +86,6 @@ int ReadLine(FILE *file, char *buff) {
 		}
 		//check for EOF
 		if (feof(file)) {
-			printf("EOF reached.\n");
 			return 2;
 		}	
 	}
@@ -90,4 +94,17 @@ int ReadLine(FILE *file, char *buff) {
 	// or an EOF, so the line is too long.
 	printf("Line Too Long\n");
 	return 1;
+}
+
+// testing method for reading the buffer until
+// the next newline character
+void BuffRead(char * buff) {
+	int index = 0;
+	while (buff[index] != '\n') {
+		printf("%c", buff[index]);
+		index++;
+	}
+	printf("\n");
+
+	return;
 }

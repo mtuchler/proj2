@@ -24,6 +24,8 @@ void* reader();
 void* munch1();
 void* munch2();
 void* writer();
+// buff reading test function
+void BuffRead(char * buff);
 
 // declaration of a Queue struct
 // size: max number of strings in queue
@@ -55,5 +57,8 @@ static const int BUFF_SIZE = 1024;
 static const int queue_size = 10;
 // array of queue pointers
 Queue *Q[3];
+
+// semaphore that blocks main after it creates threads
+sem_t main_block;
 
 #endif
