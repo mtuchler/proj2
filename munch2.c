@@ -5,7 +5,7 @@
 // Authors:     Michael Tuchler
 //              Abhishek Kosuri
 // Header:      threads.h
-// Last Edit:   10/12/2018
+// Last Edit:   10/19/2018
 //
 //////////////////////////////////
 
@@ -13,19 +13,28 @@
 #include <ctype.h>
 
 void* munch2() {
+
+	// buffer for munch2
 	char buff[BUFF_SIZE];
+
+	// main while loop
 	while(1){
+		// grab a string off the queue
 		strcpy(buff, DequeueString(Q[1]));
+		// check for EOF token
 		if(buff == NULL){
-			buff = EnqueueString(Q[2], NULL)
+			EnqueueString(Q[2], NULL);
 			exit(1);
 		}
-		else{
-			for(int i = 0; i < BUFF_SIZE; i++){
-				buff[i] = toupper(buff[i]);
-			}
+		
+		// replace lowercase with uppercase
+		for(int i = 0; i < BUFF_SIZE; i++){
+			buff[i] = toupper(buff[i]);
 		}
-		EnqueueString(Q[2].buff);
+
+		// add to next queue
+		EnqueueString(Q[2], buff);
 	}
+
 	return NULL;
 }

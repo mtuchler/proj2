@@ -26,9 +26,16 @@ void* munch2();
 void* writer();
 
 // declaration of a Queue struct
+// size: max number of strings in queue
+// rear: index of last element
+// stats: four Counts in listed order
+// 	enq, deq, enqBlock, deqBlock
+// strings: pointer to string array
+// semaphores
 typedef struct{
 	int size;
 	int rear;
+	int stats[4];
 	char** strings;
 	sem_t mutex;
 	sem_t empty;
@@ -36,10 +43,10 @@ typedef struct{
 }Queue;
 
 // queue functions
-Queue * CreateStringQueue(int size);
-void EnqueueString(Queue *q, char *string);
-char * DequeueString(Queue *q);
-void PrintQueueStats(Queue *q);
+extern Queue * CreateStringQueue(int size);
+extern void EnqueueString(Queue *q, char *string);
+extern char * DequeueString(Queue *q);
+extern void PrintQueueStats(Queue *q);
 
 // safe buffer size
 static const int BUFF_SIZE = 1024;

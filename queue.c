@@ -1,27 +1,36 @@
-// queue.c
+///////////////////////////////////
 //
+// File:	queue.c
 //
+// Authors:	Michael Tuchler
+// 		Abhishek Kosuri
+// Header:	threads.h
+// Last Edit:	10/19/2018
+//
+//////////////////////////////////
 
 #include <stdio.h>
 #include <semaphore.h>
 #include <unistd.h>
 #include "threads.h"
 
-//stats to keep track of
-int enqueueCount;
-int dequeueCount;
-int enqueueBlockCount;
-int dequeueBlockCount;
-
 //allocates the queue structure and initializes it 
 //with an array of character pointers
 Queue *CreateStringQueue(int size){
-
 	//malloc queue structure and initialize it
 	//with an array of character pointers	
 	Queue *q;
        	q = malloc(sizeof(Queue));
 	q->strings = malloc(sizeof(char*)*size);
+	
+	//initialize ints
+	q->size = size;
+	q->rear = -1;
+
+	//initialize stats
+	for (int i = 0; i < 4; i++) {
+		q->stats[i] = 0;
+	}
 
 	//initialize semaphores
 	sem_init(&q->mutex,0,1);
@@ -43,11 +52,11 @@ void EnqueueString(Queue *q, char *string){
 	
 
 	// add string to the end of the queue
-	q->strings[rear] = string;
 	q->rear++;
+	strcpy(q->strings[q->rear], string);
 	// no increment for EOF token
 	if (string != NULL) {
-		enqueueCount++;
+		q->stats[0]++;
 	}
 
 	// -- critical section ends --
@@ -67,7 +76,7 @@ char * DequeueString(Queue *q){
 		q->strings[i] = q->strings[i+1];
 	}
 	q->rear--;
-	dequeueCount++;
+	q->stats[1]++;
 
 	// -- critical section ends --
 	sem_post(&q->mutex);
@@ -79,8 +88,8 @@ char * DequeueString(Queue *q){
 //prints statistics for the queue
 void PrintQueueStats(Queue *q){
 	if(q->rear == 0) {
-		printf("%d\n%d\n%d\n%d\n",enqueueCount,dequeueCount,
-				enqueueBlockCount,dequeueBlockCount);
+		printf("%d\t%d\t%d\t%d\n",q->stats[0],q->stats[1],
+				q->stats[2],q->stats[3]);
 	}	
 }
 }
