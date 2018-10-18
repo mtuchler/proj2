@@ -25,6 +25,16 @@ void* munch1();
 void* munch2();
 void* writer();
 
+// declaration of a Queue struct
+typedef struct{
+	int size;
+	int rear;
+	char** strings;
+	sem_t mutex;
+	sem_t empty;
+	sem_t full;
+}Queue;
+
 // queue functions
 Queue * CreateStringQueue(int size);
 void EnqueueString(Queue *q, char *string);
@@ -34,15 +44,6 @@ void PrintQueueStats(Queue *q);
 // safe buffer size
 static const int BUFF_SIZE = 1024;
 
-// declaration of a Queue struct
-typedef struct{
-        int size;
-        int rear;
-        char** strings;
-	sem_t mutex;
-        sem_t empty;
-	sem_t full;
-}Queue;
 // number of items in the queue
 static const int queue_size = 10;
 // array of queue pointers
