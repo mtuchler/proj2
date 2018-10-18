@@ -15,30 +15,27 @@
 //spaces in each line. It then replaces each space with an asterisk
 //symbol.
 void* munch1() {
-	FILE *file;
-	char string[BUFF_SIZE];
-	file = fopen("test1.txt", "r");
 
-	if(file == NULL){
-		exit(1);
-	}
-
-	//scan each line
+	char buff[BUFF_SIZE];
 	while(1){
-		for(int i = 0; i<BUFF_SIZE; i++){
-			fgets(string, BUFF_SIZE, stdin);		
-			//check for spaces
-			if(string[i] == ' '){
-			//replace with * symbols
-				
+		buff = DequeueString(Q[0]);
+
+		// EOF handling
+		// reader passes NULL if EOF is reached
+		if (buff == NULL) {
+			buff = EnqueueString(Q[1], NULL);
+			exit(1);	
+		}
+
+		else{
+			//scan each line
+			for(int i = 0; i<BUFF_SIZE; i++){
+				if(buff[i] == ' '){
+					//replace with * symbols
+					buff[i] = '*';		
+				}
 			}
 		}
-		if(feof(file)){
-			printf("EOF reached\n");
-		
-		}
 	}
-	fclose(file);
-	printf("munch1\n");
 	return NULL;
 }
