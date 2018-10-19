@@ -42,5 +42,14 @@ int main() {
 		PrintQueueStats(Q[j]);
 	}
 
+	//freeing the memory
+	for(int k = 0; k<3; k++){
+		free(Q[k]->dqbuff);
+		for(int l = 0; l < Q[k]->size; l++){
+			free(Q[k]->strings[l]);
+		}
+		free(Q[k]->strings);
+		free(Q[k]);
+	}
 	return 0;
 }
