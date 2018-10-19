@@ -18,8 +18,6 @@ int main() {
 	Q[1] = CreateStringQueue(queue_size);
 	Q[2] = CreateStringQueue(queue_size);
 
-//	printf("before threads\n");
-
 	// array of the four running thread ids
 	pthread_t thread_id[4];
 	// thread_create for the four modules
@@ -31,7 +29,6 @@ int main() {
 	// semaphore blocks main after threads are created
 	// when writer sees EOF, if unblocks main
 	sem_init(&main_block,0,0);
-//	printf("main sem block\n");
 	sem_wait(&main_block);	
 
 	// join the threads
@@ -39,6 +36,11 @@ int main() {
 		pthread_join(thread_id[i], NULL);
 	}
 
-//	printf("threads closed\n");
+	// print queue stats
+	for (int j = 0; j < 3; j++) {
+		fprintf(stderr, "Queue Statistics for Q[%i]:\n", j);
+		PrintQueueStats(Q[j]);
+	}
+
 	return 0;
 }

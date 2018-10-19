@@ -44,11 +44,16 @@ Queue *CreateStringQueue(int size) {
 
 //attempts to add a string to the queue
 void EnqueueString(Queue *q, char *string) {
+	// enqueue block check
+	if (q->rear >= q->size - 1) {
+		// enqueueBlockCount
+		q->stats[2]++;
+	}
+
 	sem_wait(&q->empty);
 	sem_wait(&q->mutex);
 	// -- critical section --
 	
-	// if it was blocked
 	// add string to the end of the queue
 	q->rear++;
 	if (string != NULL) {
@@ -67,6 +72,12 @@ void EnqueueString(Queue *q, char *string) {
 
 //attempts to remove a string from the queue
 char * DequeueString(Queue *q) {
+	// dequeue block count
+	if (q->rear == -1) {
+		// dequeueBlockCount
+		q->stats[3]++;
+	}
+
 	sem_wait(&q->full);
 	sem_wait(&q->mutex);
 	// -- critical section --
@@ -100,8 +111,8 @@ char * DequeueString(Queue *q) {
 
 //prints statistics for the queue
 void PrintQueueStats(Queue *q){
-	printf("enqueueCount: %d\n",q->stats[0]);
-	printf("dequeueCount: %d\n",q->stats[1]);
-	printf("enqueueBlockCount: %d\n",q->stats[2]);
-	printf("dequeueBlockCount: %d\n",q->stats[3]);	
+	fprintf(stderr, "enqueueCount: %d\n",q->stats[0]);
+	fprintf(stderr, "dequeueCount: %d\n",q->stats[1]);
+	fprintf(stderr, "enqueueBlockCount: %d\n",q->stats[2]);
+	fprintf(stderr, "dequeueBlockCount: %d\n",q->stats[3]);	
 }

@@ -79,7 +79,7 @@ int ReadLine(char *buff) {
 
 	// if it gets here, it read BUFF_SIZE chars w/o a newline
 	// or an EOF, so the line is too long.
-	printf("Line Too Long\n");
+	fprintf(stderr, "Line exceeds buffer bounds.\n");
 	return 1;
 }
 
