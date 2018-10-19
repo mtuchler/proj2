@@ -49,7 +49,6 @@ void EnqueueString(Queue *q, char *string) {
 	// -- critical section --
 	
 	// if it was blocked
-
 	// add string to the end of the queue
 	q->rear++;
 	if (string != NULL) {
@@ -97,8 +96,8 @@ char * DequeueString(Queue *q) {
 
 //prints statistics for the queue
 void PrintQueueStats(Queue *q){
-	if(q->rear == 0) {
-		printf("%d\t%d\t%d\t%d\n",q->stats[0],q->stats[1],
-				q->stats[2],q->stats[3]);
-	}	
+	printf("enqueueCount:%d\n",q->stats[0]);
+	printf("dequeueCount:%d\n",q->stats[1]);
+	printf("enqueueBlockCount:%d\n",q->stats[2]);
+	printf("dequeueBlockCount:%d\n",q->stats[3]);	
 }
