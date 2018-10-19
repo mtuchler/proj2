@@ -1,9 +1,9 @@
 a a a
 b b
 c
-a
 d
 e
 f
+g
 h
 i

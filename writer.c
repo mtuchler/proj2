@@ -22,13 +22,10 @@ void* writer() {
 
 		// EOF handling
 		if ( nullcheck == NULL ) {
-			printf("Wr EOF\n");
 			sem_post(&main_block);
 			return NULL;
 		}
 
-		printf("Wr DQ\n");
-		
 		// copy string into buff
 		strcpy(buff, nullcheck);
 

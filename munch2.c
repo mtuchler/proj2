@@ -22,12 +22,10 @@ void* munch2() {
 	while(1){
 		// grab a string off the queue
 		nullcheck = DequeueString(Q[1]);
-		printf("M2 DQ\n");
 
 		// EOF handling, looking for NULL token
 		if (nullcheck == NULL) {
 			EnqueueString(Q[2], NULL);
-			printf("M2 EOF\n");
 			return NULL;
 		}
 
@@ -41,7 +39,6 @@ void* munch2() {
 
 		// add to next queue
 		EnqueueString(Q[2], buff);
-		printf("M2 EQ\n");
 	}
 
 	return NULL;

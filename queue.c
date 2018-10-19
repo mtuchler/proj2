@@ -74,7 +74,11 @@ char * DequeueString(Queue *q) {
 	// this stores the pointer for when we swap stuff
 	char *q_swap = q->strings[0];
 
-	// copy the string to the buffer, so it won't get modified
+	// if the dequeued element is NULL, you're done
+	if (q->strings[0] == NULL) {
+		return NULL;
+	}
+	// copy the string to the buffer so it doesn't get lost
 	strcpy(q->dqbuff, q->strings[0]);
 
 	// shift all the strings forward
@@ -96,8 +100,8 @@ char * DequeueString(Queue *q) {
 
 //prints statistics for the queue
 void PrintQueueStats(Queue *q){
-	printf("enqueueCount:%d\n",q->stats[0]);
-	printf("dequeueCount:%d\n",q->stats[1]);
-	printf("enqueueBlockCount:%d\n",q->stats[2]);
-	printf("dequeueBlockCount:%d\n",q->stats[3]);	
+	printf("enqueueCount: %d\n",q->stats[0]);
+	printf("dequeueCount: %d\n",q->stats[1]);
+	printf("enqueueBlockCount: %d\n",q->stats[2]);
+	printf("dequeueBlockCount: %d\n",q->stats[3]);	
 }
