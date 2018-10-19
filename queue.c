@@ -71,15 +71,21 @@ char * DequeueString(Queue *q) {
 	sem_wait(&q->full);
 	sem_wait(&q->mutex);
 	// -- critical section --
+	
+	// this stores the pointer for when we swap stuff
 	char *q_swap = q->strings[0];
 
+	// copy the string to the buffer, so it won't get modified
 	strcpy(q->dqbuff, q->strings[0]);
+
 	// shift all the strings forward
 	for(int i = 0; i < q->rear; i++){
 		q->strings[i] = q->strings[i+1];
 	}
 	q->strings[q->rear] = q_swap;
 	q->rear--;
+
+	// dequeueCount
 	q->stats[1]++;
 
 	// -- critical section ends --

@@ -64,6 +64,7 @@ Queue *Q[3];
 sem_t main_block;
 
 // string that is our EOF termination token
-static char * TERM_TOKEN = "\0";
+// NOW DEFUNCT
+//static char * TERM_TOKEN = "\0";
 
 #endif
