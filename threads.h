@@ -33,12 +33,14 @@ void BuffRead(char *buff);
 // stats: four Counts in listed order
 // 	enq, deq, enqBlock, deqBlock
 // strings: pointer to string array
+// dqbuff: the most recently dequeued string
 // semaphores
 typedef struct{
 	int size;
 	int rear;
 	int stats[4];
 	char** strings;
+	char *dqbuff;
 	sem_t mutex;
 	sem_t empty;
 	sem_t full;

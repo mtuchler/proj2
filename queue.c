@@ -11,31 +11,34 @@
 
 #include "threads.h"
 
-//allocates the queue structure and initializes it 
-//with an array of character pointers
+// allocates the queue structure and initializes it 
+// with an array of character pointers
 Queue *CreateStringQueue(int size) {
-	//malloc queue structure and initialize it
-	//with an array of character pointers	
+	// malloc queue structure and initialize it
+	// with an array of character pointers	
 	Queue *q;
        	q = malloc(sizeof(Queue));
 	q->strings = malloc(sizeof(char*)*size);
+	for (int i = 0; i < size; i++) {
+		q->strings[i] = malloc(BUFF_SIZE);
+	}
+	// malloc of dqbuff
+	q->dqbuff = malloc(BUFF_SIZE);
 	
-	//initialize ints
+	// initialize ints
 	q->size = size;
 	q->rear = -1;
 
-	//initialize stats
+	// initialize stats
 	for (int i = 0; i < 4; i++) {
 		q->stats[i] = 0;
 	}
 
-	//initialize semaphores
+	// initialize semaphores
 	sem_init(&q->mutex,0,1);
         sem_init(&q->full,0,0);
 	sem_init(&q->empty,0, queue_size);
-	for (int i = 0; i < size; i++) {
-		q->strings[i] = malloc(BUFF_SIZE);
-	}
+	
         return q;
 }
 
@@ -68,12 +71,14 @@ char * DequeueString(Queue *q) {
 	sem_wait(&q->full);
 	sem_wait(&q->mutex);
 	// -- critical section --
+	char *q_swap = q->strings[0];
 
-	char* q_front = q->strings[0];
+	strcpy(q->dqbuff, q->strings[0]);
 	// shift all the strings forward
 	for(int i = 0; i < q->rear; i++){
 		q->strings[i] = q->strings[i+1];
 	}
+	q->strings[q->rear] = q_swap;
 	q->rear--;
 	q->stats[1]++;
 
@@ -81,7 +86,7 @@ char * DequeueString(Queue *q) {
 	sem_post(&q->mutex);
 	sem_post(&q->empty);
 
-	return q_front;
+	return q->dqbuff;
 }
 
 //prints statistics for the queue
