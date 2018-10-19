@@ -34,17 +34,24 @@ void* reader() {
 		// input line is too long
 		else if (read_result == 1) {
 			// flush line
-			char c;
+			// set c to something that's NOT a newline
+			char c = 'a';
+			// read until newline found
 			while (c != '\n') {
 				c = fgetc(stdin);
+				// if EOF found before newline, then you're done
 				if(feof(stdin)) {
-					c = '\n';
+					EnqueueString(Q[0], NULL);
+					return NULL;
 				}	
 			}
 		}
 		// EOF reached
 		else { // read_result == 2
-			//EnqueueString(Q[0], buff);
+			// Enqueue the buffer, unless it signals teh EOF
+			if (buff[0] != '\0') {
+				EnqueueString(Q[0], buff);
+			}
 			// NULL tells Munch1 that EOF is reached
 			EnqueueString(Q[0], NULL);
 			noEOF = 0;
@@ -68,11 +75,12 @@ int ReadLine(char *buff) {
 		buff[i] = fgetc(stdin);
 		// check for newline
 		if (buff[i] == '\n') {
-			buff[i+1] = '\0';
+			buff[i] = '\0';
 			return 0;
 		}
 		//check for EOF
 		if (feof(stdin)) {
+			buff[i] = '\0';
 			return 2;
 		}	
 	}

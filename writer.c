@@ -30,7 +30,7 @@ void* writer() {
 		strcpy(buff, nullcheck);
 
 		//write to standard output
-		fprintf(stderr, "%s", buff);
+		fprintf(stderr, "%s\n", buff);
 	}
 	return NULL;
 }

@@ -56,7 +56,7 @@ void PrintQueueStats(Queue *q);
 static const int BUFF_SIZE = 1024;
 
 // number of items in the queue
-static const int queue_size = 1;
+static const int queue_size = 10;
 // array of queue pointers
 Queue *Q[3];
 
