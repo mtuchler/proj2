@@ -16,18 +16,23 @@ void* munch2() {
 
 	// buffer for munch2
 	char buff[BUFF_SIZE];
+	char *nullcheck;
 
 	// main while loop
 	while(1){
 		// grab a string off the queue
-		strcpy(buff, DequeueString(Q[1]));
-//		printf("M2 DQ\n");
+		nullcheck = DequeueString(Q[1]);
+		printf("M2 DQ\n");
+
 		// EOF handling, looking for NULL token
-		if (strcmp(buff, TERM_TOKEN) == 0) {
-			EnqueueString(Q[2], TERM_TOKEN);
-//			printf("M2 EOF\n");
+		if (nullcheck == NULL) {
+			EnqueueString(Q[2], NULL);
+			printf("M2 EOF\n");
 			return NULL;
 		}
+
+		// proper input received from queue
+		strcpy(buff, nullcheck);
 		
 		// replace lowercase with uppercase
 		for(int i = 0; i < BUFF_SIZE; i++){
@@ -36,7 +41,7 @@ void* munch2() {
 
 		// add to next queue
 		EnqueueString(Q[2], buff);
-//		printf("M2 EQ\n");
+		printf("M2 EQ\n");
 	}
 
 	return NULL;

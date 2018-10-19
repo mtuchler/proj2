@@ -14,19 +14,24 @@
 void* writer() {
 
 	char buff[BUFF_SIZE];
+	char *nullcheck;
 
 	while(1){
-		strcpy(buff, DequeueString(Q[2]));
+		// grab a string off the queue
+		nullcheck = DequeueString(Q[2]);
+
 		// EOF handling
-		if ( strcmp(buff, TERM_TOKEN) == 0 ) {
-//			printf("Wr EOF\n");
+		if ( nullcheck == NULL ) {
+			printf("Wr EOF\n");
 			sem_post(&main_block);
 			return NULL;
 		}
-		else {
-//			printf("Wr DQ\n");
-		}
-	
+
+		printf("Wr DQ\n");
+		
+		// copy string into buff
+		strcpy(buff, nullcheck);
+
 		//write to standard output
 		BuffRead(buff);
 	}

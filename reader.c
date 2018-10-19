@@ -25,12 +25,12 @@ void* reader() {
 		// reading from file, by line
 		// reading happens one char at a time
 		read_result = ReadLine(buff);
-//		BuffRead(buff);
+		BuffRead(buff);
 		// successful read
 		if (read_result == 0) {
-//			fprintf(stderr, "%s", buff);
+			//fprintf(stderr, "%s", buff);
 			EnqueueString(Q[0], buff);
-//			printf("Re EQ\n");
+			printf("Re EQ\n");
 		}
 		// input line is too long
 		else if (read_result == 1) {
@@ -46,9 +46,9 @@ void* reader() {
 		// EOF reached
 		else { // read_result == 2
 			//EnqueueString(Q[0], buff);
-			// TERM_TOKEN tells Munch1 that EOF is reached
-			EnqueueString(Q[0], TERM_TOKEN);
-//			printf("Re EOF\n");
+			// NULL tells Munch1 that EOF is reached
+			EnqueueString(Q[0], NULL);
+			printf("Re EOF\n");
 			noEOF = 0;
 		}
 	}
